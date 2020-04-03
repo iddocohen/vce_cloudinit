@@ -49,11 +49,11 @@ Then download this repository and ``cd`` to execute the below commands in each o
 
 To generate transport cloud-init ISOs with user-data and meta-data based files use: 
 
-`` genisoimage -output cloud-init.iso -volid cidata -joliet -rock user-data meta-data
+``genisoimage -output cloud-init.iso -volid cidata -joliet -rock user-data meta-data``
 
 To generate transport cloud-init ISOs with OVF properties environment (aka ovf-env.xml) based configuration use:
 
-`` genisoimage -o cloud-init.iso -r ovf-env.xml``
+``genisoimage -o cloud-init.iso -r ovf-env.xml``
 
 In each folder there is already generated .iso for the given example file/files.
 
