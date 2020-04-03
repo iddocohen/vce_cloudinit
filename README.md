@@ -20,7 +20,7 @@ Since version 3.3.2, the virtual VCE will mandate to "feed it" with a valid clou
 
 Cloud-init is configured to use the following data sources: ``NoCloud``, ``ConfigDrive``, ``OpenStack``, ``Azure``, ``Ec2`` and ``VCOVF``
 
-For those who have notice, ``VCOVF`` is not in the online documentation as it is an in house build data source and uses the ``OVF`` data source but with more functionalities for our VCE use-case. 
+For those who have noticed, ``VCOVF`` is not in the online documentation as it is an in house build data source and uses the ``OVF`` data source but with more functionalities for our VCE use-case. 
 
 At startup and availability of any of those data sources, cloud-init phases the content and uses modules (aka scripts) to alter the configuration of the VCE based on the phased data. Those modules do not change based on the data sources used but cloud-init ensures that the phased data works with any module correctly.
 
