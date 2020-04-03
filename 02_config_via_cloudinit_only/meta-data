@@ -1,0 +1,8 @@
+instance-id: vedge1
+local-hostname: vedge1
+network-interfaces:
+  GE3:
+    type: static
+    ipaddr: 10.1.0.2
+    netmask: 255.255.255.0
+    gateway: 10.1.0.1

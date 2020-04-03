@@ -1,0 +1,9 @@
+#cloud-config
+password: velocloud
+chpasswd: { expire: False }
+ssh_pwauth: True
+
+runcmd:
+  - 'sleep 60'
+  - 'sed -i.bak "s/option ignore 1/option ignore 0/" /etc/config/dhcp'
+  - '/etc/init.d/network restart'

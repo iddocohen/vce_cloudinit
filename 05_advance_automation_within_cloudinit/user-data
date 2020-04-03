@@ -1,0 +1,89 @@
+#cloud-config
+hostname: vce
+password: Velocloud123
+chpasswd: {expire: False}
+ssh_pwauth: True
+write_files:
+  - path: "/tmp/environment.json"
+    permissions: "0644"
+    content: |
+      {
+        "vco-address": "vco22-fra1.velocloud.net",
+        "activation-code": "2K4R-Q65T-R97X-M7QG",
+        "dpdk": 1,
+        "interfaces": {
+            "GE4":{
+                   "static": 0
+            },
+            "GE3":{
+                  "static": 1,
+                  "address": "192.168.2.150",
+                  "netmask": "255.255.255.0",
+                  "gateway": "192.168.2.4"
+            }
+        }
+      }
+  - path: "/var/lib/cloud/scripts/per-boot/config_edge"
+    permissions: "0755"
+    content: |
+                #!/usr/bin/python
+                import json
+                import commands
+                import os
+                import subprocess
+                def ping(host):
+                    with open(os.devnull, 'w') as DEVNULL:
+                        try:
+                            subprocess.check_call(
+                                ['ping', '-c', '3', host],
+                                stdout=DEVNULL,
+                                stderr=DEVNULL
+                            )
+                            is_up = True
+                        except subprocess.CalledProcessError:
+                            is_up = False
+                    return is_up
+
+                is_activated = commands.getoutput("/opt/vc/bin/is_activated.py")
+                if "True" in str(is_activated):
+                    print "VCE already activated"
+                    exit
+                with open("/tmp/environment.json", "r") as jsonFile:
+                    data = json.load(jsonFile)
+                    if "dpdk" in data:
+                        with open("/opt/vc/etc/dpdk.json", "r") as dpdkfile:
+                           data2 = json.load(dpdkfile)
+                           data2["dpdk_enabled"] = data["dpdk"]
+                        with open("/opt/vc/etc/dpdk.json", "w") as dpdkfile:
+                           dpdkfile.write(json.dumps(data2,sort_keys=True,indent=4, separators=(",", ": ")))
+                    if "interfaces" in data:
+                        for inter in data["interfaces"]:
+                            if data["interfaces"][inter]["static"] == 1:
+                                address = data["interfaces"][inter]["address"]
+                                netmask = data["interfaces"][inter]["netmask"]
+                                gateway = data["interfaces"][inter]["gateway"]
+                                commands.getoutput("/opt/vc/bin/set_wan_config.sh {0} STATIC {1} {2} {3}".format(inter, address, netmask, gateway))
+                            else:
+                                commands.getoutput("/opt/vc/bin/set_wan_config.sh {0} DHCP")
+                    if not ping("8.8.8.8"):
+                        print "VCE cannot reach 8.8.8.8"
+                        exit
+                    if "vco-address" not in data or data["vco-address"] == "":
+                        print "Skipping activation, no vco-address defined"
+                        exit
+                    vcohost = data["vco-address"]
+                    if "activation-code" in data and len(data["activation-code"]) == 19:
+                        code = data["activation-code"]
+                        out = commands.getoutput("/opt/vc/bin/activate.py -s {0} -i {1}".format(vcohost, code))
+                        print(out)
+                    else:
+                        print "Skipping activation, activation key does not seem to be valid"       
+runcmd:
+- '/var/lib/cloud/scripts/per-boot/config_edge'
+final_message: "==== Cloud-init completed ===="
+#power_state:
+# delay: "+1"
+# mode: reboot
+# message: Bye Bye
+# timeout: 30
+# condition: True

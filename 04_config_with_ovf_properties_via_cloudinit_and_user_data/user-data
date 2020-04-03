@@ -1,0 +1,5 @@
+#cloud-config
+hostname: vce
+password: Velocloud123
+chpasswd: {expire: False}
+ssh_pwauth: True

@@ -1,0 +1,109 @@
+#cloud-config
+hostname: vce
+password: Velocloud123
+chpasswd: {expire: False}
+ssh_pwauth: True
+write_files:
+  - path: "/tmp/environment.json"
+    permissions: "0644"
+    content: |
+      {
+        "vco-address": "vco22-fra1.velocloud.net",
+        "vco-user": "",
+        "vco-pass": "",
+        "vce-name": "Automation-Test1",
+        "enterpriseId": 507,
+        "enterpriseProxyId": 23,
+        "dpdk": 1,
+        "interfaces": {
+            "GE4":{
+                   "static": 0
+            },
+            "GE3":{
+                  "static": 1,
+                  "address": "192.168.2.150",
+                  "netmask": "255.255.255.0",
+                  "gateway": "192.168.2.4"
+            }
+        }
+      }
+  - path: "/var/lib/cloud/scripts/per-boot/config_edge"
+    permissions: "0755"
+    content: |
+                #!/usr/bin/python
+                import json
+                import commands
+                import os
+                import subprocess
+                def ping(host):
+                    with open(os.devnull, 'w') as DEVNULL:
+                        try:
+                            subprocess.check_call(
+                                ['ping', '-c', '3', host],
+                                stdout=DEVNULL,
+                                stderr=DEVNULL
+                            )
+                            is_up = True
+                        except subprocess.CalledProcessError:
+                            is_up = False
+                    return is_up
+
+                is_activated = commands.getoutput("/opt/vc/bin/is_activated.py")
+                if "True" in str(is_activated):
+                    print "VCE already activated"
+                    exit
+                with open("/tmp/environment.json", "r") as jsonFile:
+                    data = json.load(jsonFile)
+                    if "dpdk" in data and data["dpdk"] == 1:
+                        with open("/opt/vc/etc/dpdk.json", "r") as dpdkfile:
+                           data2 = json.load(dpdkfile)
+                           data2["dpdk_enabled"] = 1
+                        with open("/opt/vc/etc/dpdk.json", "w") as dpdkfile:
+                           dpdkfile.write(json.dumps(data2,sort_keys=True,indent=4, separators=(",", ": ")))
+                    if "interfaces" in data:
+                        for inter in data["interfaces"]:
+                            if data["interfaces"][inter]["static"] == 1:
+                                address = data["interfaces"][inter]["address"]
+                                netmask = data["interfaces"][inter]["netmask"]
+                                gateway = data["interfaces"][inter]["gateway"]
+                                commands.getoutput("/opt/vc/bin/set_wan_config.sh {0} STATIC {1} {2} {3}".format(inter, address, netmask, gateway))
+                            else:
+                                commands.getoutput("/opt/vc/bin/set_wan_config.sh {0} DHCP")
+                    if not ping("8.8.8.8"):
+                        print "VCE cannot reach 8.8.8.8"
+                        exit
+                    if "vco-address" not in data or data["vco-address"] == "":
+                        print "Skipping activation, no vco-address defined"
+                        exit
+                    vcohost = data["vco-address"]
+                    if "activation-code" in data and len(data["activation-code"]) == 19:
+                        code = data["activation-code"]
+                        out = commands.getoutput("/opt/vc/bin/activate.py -s {0} -i {1}".format(vcohost, code))
+                        print(out)
+                    elif "vco-user" in data and "vco-pass" in data and "vce-name" in data:
+                        user = data["vco-user"]
+                        passw= data["vco-pass"]
+                        host = data["vce-name"]
+                        entid    = data["enterpriseId"]
+                        proxyid   = data["enterpriseProxyId"]
+                        commands.getoutput('/usr/bin/curl --insecure -k --cookie-jar %s -k -d \'{"username":"%s","password":"%s"}\' https://%s/login/enterpriseLogin &> /dev/null' % ("/tmp/cookie", user, passw, vcohost))
+
+                        ret = commands.getoutput('/usr/bin/curl --insecure -k --cookie %s -X POST -d \'{"jsonrpc":"2.0","method":"edge/edgeProvision","params":{"name":"%s","customInfo":"","configurationId":"7737","serialNumber":null,"site":{"id":null,"created":null,"name":null,"contactName":"automation","contactPhone":null,"contactMobile":null,"contactEmail":"automation@t-systems.com","streetAddress":null,"streetAddress2":null,"city":null,"state":null,"postalCode":null,"country":null,"lat":null,"lon":null,"timezone":null,"locale":null,"shippingSameAsLocation":1,"shippingContactName":null,"shippingAddress":null,"shippingAddress2":null,"shippingCity":null,"shippingState":null,"shippingPostalCode":null,"shippingCountry":null,"modified":null},"haEnabled":false,"modelNumber":"virtual","enterpriseId":%i,"enterpriseProxyId":%i},"id":100}\' https://%s/portal/ 2> /dev/null' % ("/tmp/cookie", host, entid, proxyid, vcohost))
+                        try:
+                            code = json.loads(ret)['result']['activationKey']
+                            out = commands.getoutput("/opt/vc/bin/activate.py -s {0} -i {1}".format(vcohost, code))
+                            print(out)
+                        except:
+                            print(ret)
+                            exit
+                    else:
+                        print "Skipping activation, activation key, username or password  do not seem to be valid"       
+runcmd:
+- '/var/lib/cloud/scripts/per-boot/config_edge'
+final_message: "==== Cloud-init completed ===="
+#power_state:
+# delay: "+1"
+# mode: reboot
+# message: Bye Bye
+# timeout: 30
+# condition: True

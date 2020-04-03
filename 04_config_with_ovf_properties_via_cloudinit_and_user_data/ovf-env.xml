@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Environment
+     xmlns="http://schemas.dmtf.org/ovf/environment/1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:oe="http://schemas.dmtf.org/ovf/environment/1"
+     xmlns:ve="http://www.vmware.com/schema/ovfenv"
+     oe:id="">
+   <PlatformSection>
+      <Kind>VMware ESXi</Kind>
+      <Version>6.7.0</Version>
+      <Vendor>VMware, Inc.</Vendor>
+      <Locale>en</Locale>
+   </PlatformSection>
+   <PropertySection>
+         <Property oe:key="eth0.macAddress" oe:value=""/>
+         <Property oe:key="eth1.macAddress" oe:value=""/>
+         <Property oe:key="eth2.gatewayAddress" oe:value=""/>
+         <Property oe:key="eth2.ipAddress" oe:value=""/>
+         <Property oe:key="eth2.ipAllocationType" oe:value="DHCP"/>
+         <Property oe:key="eth2.macAddress" oe:value=""/>
+         <Property oe:key="eth2.subnetMask" oe:value=""/>
+         <Property oe:key="eth3.gatewayAddress" oe:value=""/>
+         <Property oe:key="eth3.ipAddress" oe:value=""/>
+         <Property oe:key="eth3.ipAllocationType" oe:value="DHCP"/>
+         <Property oe:key="eth3.macAddress" oe:value=""/>
+         <Property oe:key="eth3.subnetMask" oe:value=""/>
+         <Property oe:key="eth4.gatewayAddress" oe:value=""/>
+         <Property oe:key="eth4.ipAddress" oe:value=""/>
+         <Property oe:key="eth4.ipAllocationType" oe:value="DHCP"/>
+         <Property oe:key="eth4.macAddress" oe:value=""/>
+         <Property oe:key="eth4.subnetMask" oe:value=""/>
+         <Property oe:key="eth5.gatewayAddress" oe:value=""/>
+         <Property oe:key="eth5.ipAddress" oe:value=""/>
+         <Property oe:key="eth5.ipAllocationType" oe:value="DHCP"/>
+         <Property oe:key="eth5.macAddress" oe:value=""/>
+         <Property oe:key="eth5.subnetMask" oe:value=""/>
+         <Property oe:key="instance-id" oe:value="id-ovf"/>
+         <Property oe:key="password" oe:value="Velocloud123"/>
+         <Property oe:key="user-data" oe:value="I2Nsb3VkLWNvbmZpZwpob3N0bmFtZTogdmNlCnBhc3N3b3JkOiBWZWxvY2xvdWQxMjMKY2hwYXNzd2Q6IHtleHBpcmU6IEZhbHNlfQpzc2hfcHdhdXRoOiBUcnVlCg==%"/>
+         <Property oe:key="velocloud.vce.activation_code" oe:value=""/>
+         <Property oe:key="velocloud.vce.dns1" oe:value="8.8.8.8"/>
+         <Property oe:key="velocloud.vce.dns2" oe:value="8.8.4.4"/>
+         <Property oe:key="velocloud.vce.vco" oe:value="vco22-fra1.velocloud.net"/>
+         <Property oe:key="velocloud.vce.vco_ignore_cert_errors" oe:value="False"/>
+   </PropertySection>
+</Environment>
