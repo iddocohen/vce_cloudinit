@@ -1,1 +1,0 @@
-genisoimage -o cloud-init.iso -r ovf-env.xml
