@@ -16,9 +16,9 @@ That is what we are using with  KVM and OVA based VCE images, which gives the us
 
 # The way of how the cloud-init operates on our virtual VCE
 
-Since version 3.3.2, the virtual VCE will mandate to "feed it" with a valid cloud-init [data source](https://cloudinit.readthedocs.io/en/latest/topics/data sources.html) so it can initially spun-up on a compute host. 
+Since version 3.3.2, the virtual VCE will mandate to "feed it" with a valid cloud-init [data source](https://cloudinit.readthedocs.io/en/latest/topics/datasources.html) so it can initially spun-up on a compute host. 
 
-Cloud-init is configured to use the following data sources: ``NoCloud``, ``ConfigDrive``, ``OpenStack``, `Àzure``, `Èc2``and ``VCOVF``
+Cloud-init is configured to use the following data sources: ``NoCloud``, ``ConfigDrive``, ``OpenStack``, ``Àzure``, ``Ec2`` and ``VCOVF``
 
 For those who have notice, ``VCOVF`` is not in the online documentation as it is an in house build data source and uses the ``ÒVF`` data source but with more functionalities for our VCE use-case. 
 
@@ -45,7 +45,7 @@ brew install cdrtools
 ln -s /usr/local/bin/mkisofs /usr/local/bin/genisoimage
 ```
 
-Then please ``cd <folder>``to execute the below commands. 
+Then download this repository and ``cd`` to execute the below commands in each of the folders. 
 
 To generate transport cloud-init ISOs with user-data and meta-data based files use: 
 
