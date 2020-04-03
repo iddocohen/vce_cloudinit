@@ -13,6 +13,6 @@ Another example of NoCloud (user-data/meta-data), with some more configurations 
 
 The outcome is, that after GE3 is configured, all other interfaces will be configurated with DHCP IP. 
 
-**Credits to Saqeb Akther** how gave me that configuration.
+**Credits to Saqeb Akther** who gave me that configuration.
 
 
