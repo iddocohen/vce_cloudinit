@@ -1,6 +1,6 @@
 # Description
 
-Another example of NoCloud (user-data/meta-data), with some more configurations then 01 folder had:
+Another example of ``NoCloud`` (user-data/meta-data), with some more configurations then 01 folder had:
 
 - In the meta-data:
   - we change the hostname to be vedge1
