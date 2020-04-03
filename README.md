@@ -20,13 +20,13 @@ Since version 3.3.2, the virtual VCE will mandate to "feed it" with a valid clou
 
 Cloud-init is configured to use the following data sources: ``NoCloud``, ``ConfigDrive``, ``OpenStack``, ``Azure``, ``Ec2`` and ``VCOVF``
 
-For those who have noticed, ``VCOVF`` is not in the online documentation as it is an in house build data source and uses the ``OVF`` data source but with more functionalities for our VCE use-case. 
+For those who have noticed, ``VCOVF`` is not publicly documented as it is an in house build data source using the ``OVF`` with more functionalities integerated. 
 
-At startup and availability of any of those data sources, cloud-init phases the content and uses modules (aka scripts) to alter the configuration of the VCE based on the phased data. Those modules do not change based on the data sources used but cloud-init ensures that the phased data works with any module correctly.
+At startup and availability of any of those data sources, cloud-init extracting the content out of the data source and uses that within the modules (aka scripts) to alter the configuration of the VCE based. Those modules do not change based on the data source type, as cloud-init ensures that the data works with all modules.
 
-This means because we are so flexible of how many data sources we support, it gives one the choice what to use and hence there are several permutation to send data to the VCE to archive the same goal of configuration but there is no absolute right way to do it. 
+This means because we are flexible with different data sources we support, it gives one variety choice and hence there are several permutation to send data to the VCE to archive the same goal of configuration - so no absolute right way. 
 
-Please note today this repository covers only ``NoCloud`` (user-data/meta-data) and ``VCOVF``(ovf-env.xml) based approaches; nevertheless, I might include others in the future.
+Please note today this repository covers only ``NoCloud`` (user-data/meta-data) and ``VCOVF``(ovf-env.xml) based configurations; nevertheless, I might include others in the future.
 
 # Usage
 
