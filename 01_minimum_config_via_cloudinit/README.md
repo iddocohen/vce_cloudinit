@@ -1,6 +1,6 @@
 # Description
 
-It uses simple NoCloud (user-data/meta-data) files for cloud-init to provision the bare minimum.
+It uses simple ``NoCloud`` (user-data/meta-data) files for cloud-init to provision the bare minimum.
 
 What is the bare-minimum?:
 - Hostname change to "vce" (default hostname is "vce-login")
