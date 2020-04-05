@@ -47,7 +47,7 @@ brew install cdrtools
 ln -s /usr/local/bin/mkisofs /usr/local/bin/genisoimage
 ```
 
-``mkisofs`` is newer just a newer version of ``genisoimage``, hence the above soft link works.
+``mkisofs`` is newer version of ``genisoimage``, hence the above soft link and the below commands work on MacOS.
 
 Then download this repository and ``cd`` to execute the below commands in each of the folders. 
 
