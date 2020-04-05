@@ -59,7 +59,7 @@ To generate transport cloud-init ISOs with OVF properties environment (aka ovf-e
 
 ``genisoimage -o cloud-init.iso -r ovf-env.xml``
 
-The reason we have two type of commands is, we need a ``joliet`` for a cicdata based CD-ROM for `NoCloud`` based data source but for ``VCOVF`` we do not. 
+The reason we have two type of commands is, we need a ``joliet`` for a cicdata based CD-ROM for ``NoCloud`` based data source but for ``VCOVF`` we do not. 
 
 In each folder there is already generated .iso for the given example file/files, and one can use ``isoinfo -d -i cloud-init.iso`` to get more info how the CD image is build. 
 
