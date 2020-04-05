@@ -32,6 +32,8 @@ Please note today this repository covers only ``NoCloud`` (user-data/meta-data) 
 
 Go to the either folder and either use the existing .iso or generate a new one based on your use-case.
 
+When altering existing user-data/meta-data files please note, that they are YAML based and as such are sensitive to syntax. For example, do not use tabs for spaces. 
+
 **Please note** Best practice is to upload the .iso to the data storage where the VCE gets spun-up at. Trying to mount the .iso locally and use something like e.g. VMware Fusion to install the VCE remotely with .iso attached locally will fail.  
 
 # Generating new ISO for VCE
@@ -45,6 +47,8 @@ brew install cdrtools
 ln -s /usr/local/bin/mkisofs /usr/local/bin/genisoimage
 ```
 
+``mkisofs`` is newer just a newer version of ``genisoimage``, hence the above soft link works.
+
 Then download this repository and ``cd`` to execute the below commands in each of the folders. 
 
 To generate transport cloud-init ISOs with user-data and meta-data based files use: 
@@ -55,7 +59,9 @@ To generate transport cloud-init ISOs with OVF properties environment (aka ovf-e
 
 ``genisoimage -o cloud-init.iso -r ovf-env.xml``
 
-In each folder there is already generated .iso for the given example file/files.
+The reason we have two type of commands is, we need a ``joliet`` for a cicdata based CD-ROM for `NoCloud`` based data source but for ``VCOVF`` we do not. 
+
+In each folder there is already generated .iso for the given example file/files, and one can use ``isoinfo -d -i cloud-init.iso`` to get more info how the CD image is build. 
 
 # Licence
 
