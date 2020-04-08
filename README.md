@@ -1,6 +1,6 @@
 # Purpose
 
-Inspired from our [cloud-inits for VCG](https://bitbucket.org/velocloud/deployment/src/master/vcg/), I thought it would be beneficial to do the same for VMware Edges (VCEs)..
+Inspired from our [cloud-inits for VCG](https://bitbucket.org/velocloud/deployment/src/master/vcg/), I thought it would be beneficial to do the same for VMware Edges (VCEs).
 
 This repository should be used as "inspiration" on how cloud-init configurations could look like for the VCEs and with ISOs which can be used immediately. 
 
@@ -32,7 +32,7 @@ Please note today this repository covers only ``NoCloud`` (aka, user-data and me
 
 Either go to the folder and use the existing ``cloud-init.iso`` or generate a new one by altering the existing files in the folder.
 
-When altering existing user-data/meta-data files please note that they are YAML based and as such are sensitive to syntax. For example, do not use tabs for spaces. 
+When altering existing user-data/meta-data files please note that they are YAML based and as such are sensitive to syntax. I would recommend to use a [YAML validator website](http://www.yamllint.com/) to make sure that your syntax is correct or spend hours in troubleshooting cloud-init - trust me happend to me and that is not fun.
 
 **Please note** Best practice is to upload the .iso to the data storage where the VCE gets spun-up at. Trying to mount the .iso locally and use something like e.g. VMware Fusion to install the VCE remotely with .iso attached locally will fail.  
 
