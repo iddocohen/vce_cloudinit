@@ -20,25 +20,25 @@ Since version 3.3.2, the virtual VCE will mandate to "feed it" with a valid clou
 
 Cloud-init is configured to use the following data sources: ``NoCloud``, ``ConfigDrive``, ``OpenStack``, ``Azure``, ``Ec2`` and ``VCOVF``
 
-For those who have noticed, ``VCOVF`` is not publicly documented as it is an in house build data source using the ``OVF`` with more functionalities integerated. 
+For those who have noticed, ``VCOVF`` is not publicly documented as it is an in house build data source using the ``OVF`` with more functionalities integrated. 
 
-At startup and availability of any of those data sources, cloud-init extracting the content out of the data source and uses that within the modules (aka scripts) to alter the configuration of the VCE based. Those modules do not change based on the data source type, as cloud-init ensures that the data works with all modules.
+At startup and availability of any of those data sources, cloud-init is extracting the content out of the data source and uses that within the modules (aka scripts), so they can alter the VCE configuration. Those modules do not change based on the data source type, as cloud-init ensures that the data works with all modules.
 
-This means because we are flexible with different data sources we support, it gives one variety choice and hence there are several permutation to send data to the VCE to archive the same goal of configuration - so no absolute right way. 
+As the VCE is flexible -in what data source it can use- it gives the user several permutation to send data to the VCE to archive the same goal of configuration. Thereby, there is no "absolute right way" to archive a given configuration and hence the goal of the repository - to inspire combinations of configurations.  
 
-Please note today this repository covers only ``NoCloud`` (user-data/meta-data) and ``VCOVF``(ovf-env.xml) based configurations; nevertheless, I might include others in the future.
+Please note today this repository covers only ``NoCloud`` (aka, user-data and meta-data files) and ``VCOVF``(aka, ovf-env.xml file) but I will include others as we grow this repository. 
 
 # Usage
 
-Go to the either folder and either use the existing .iso or generate a new one based on your use-case.
+Either go to the folder and use the existing ``cloud-init.iso`` or generate a new one by altering the existing files in the folder.
 
-When altering existing user-data/meta-data files please note, that they are YAML based and as such are sensitive to syntax. For example, do not use tabs for spaces. 
+When altering existing user-data/meta-data files please note that they are YAML based and as such are sensitive to syntax. For example, do not use tabs for spaces. 
 
 **Please note** Best practice is to upload the .iso to the data storage where the VCE gets spun-up at. Trying to mount the .iso locally and use something like e.g. VMware Fusion to install the VCE remotely with .iso attached locally will fail.  
 
 # Generating new ISO for VCE
 
-Simplest way is to use ``mkisofs``/``geniosimage`` commands to create a comptabile ISO for the VCE. This can be done under MacOS or Linux based machines (sorry Windows users).
+Simplest way is to use ``mkisofs``/``geniosimage`` commands to create a compatible ISO for the VCE. This can be done under MacOS or Linux based machines (sorry Windows users).
 
 For MacOS users wondering "how to can I use the below genisoimage commands, when I only have mkisofs?!":
 
@@ -59,7 +59,7 @@ To generate transport cloud-init ISOs with OVF properties environment (aka ovf-e
 
 ``genisoimage -o cloud-init.iso -r ovf-env.xml``
 
-The reason we have two type of commands is, we need a ``joliet`` for a cicdata based CD-ROM for ``NoCloud`` based data source but for ``VCOVF`` we do not. 
+The reason we have two type of commands is, we need a ``joliet``for a ``cicdata`` based CD-ROM for ``NoCloud`` but for ``VCOVF`` we do not. 
 
 In each folder there is already generated .iso for the given example file/files, and one can use ``isoinfo -d -i cloud-init.iso`` to get more info how the CD image is build. 
 
