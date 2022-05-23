@@ -40,7 +40,7 @@ When altering existing user-data/meta-data files please note that they are YAML 
 
 Simplest way is to use ``mkisofs``/``geniosimage`` commands to create a compatible ISO for the VCE. This can be done under MacOS or Linux based machines (sorry Windows users).
 
-For MacOS users wondering "how to can I use the below genisoimage commands, when I only have mkisofs?!":
+For MacOS users wondering "how can I use the below genisoimage commands, if I only have mkisofs?!":
 
 ```sh
 brew install cdrtools
